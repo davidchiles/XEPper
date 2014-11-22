@@ -1,0 +1,16 @@
+{
+  "name": "XEPper",
+  "version": "1.0.0",
+  "description": "A quick and dirty way to query XMPP servers for their capabiliites and features",
+  "main": "client.js",
+  "dependencies": {
+    "node-xmpp-client": "^1.0.0-alpha18",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
