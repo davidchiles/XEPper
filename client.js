@@ -5,6 +5,7 @@ var accounts = require('./secrets.json');
 var lookup = require('./xepLookup.json');
 var _ = require('underscore');
 var Create = require('./create.js');
+var fs = require('fs');
 
 var NS_XMPP_DISCO = 'http://jabber.org/protocol/disco#info';
 
@@ -42,14 +43,17 @@ function getCapabilities(jid, password) {
 			handleDiscoFeatures(features, client.jid);
 			finished += 1;
 			if (finished == accounts.length) {
-				console.log(results);
-				Create.createPage(results);
-				disconnectAllClients();
-
+				writeJsonToFile(results,'./results.json', function(error){
+					disconnectAllClients();
+				});
 			}
 		}
 	});
 
+}
+
+function writeJsonToFile(json, filePath,callback) {
+	fs.writeFile(filePath, JSON.stringify(json, null, 4), callback);
 }
 
 function disconnectAllClients()
@@ -57,6 +61,7 @@ function disconnectAllClients()
 	for(var index in clients) {
 		client = clients[index];
 		//client.disconnect();
+		process.exit(1);
 	}
 }
 
