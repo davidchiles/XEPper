@@ -7,13 +7,18 @@ var _ = require('underscore');
 var Create = require('./create.js');
 var fs = require('fs');
 
+var streamFeaturesKey = 'streamFeatures';
+var discoFeaturesKey = 'capabilityFeatures';
+var softwareNameKey = 'softwareName';
+var softwareVersionKey = 'softwareVersion';
+
 var NS_XMPP_DISCO = 'http://jabber.org/protocol/disco#info';
 var NS_XMPP_VERSION = 'jabber:iq:version';
 
 var results = {};
 var clients = [];
 
-var finished = 0;
+var timeoutObject;
 
 for (var index in accounts) {
 	var account = accounts[index];
@@ -38,17 +43,12 @@ function getCapabilities(jid, password) {
 		client.send( new Client.Stanza.Element('iq',{type: 'get',to : dict.jid.domain, from : dict.jid, id : 'version1'}).c('query', { xmlns: NS_XMPP_VERSION }));
 	});
 
-	client.on('stanza', function(stanza){
+	client.on('stanza', function(stanza) {
+
 		if(stanza.attrs['id'] == 'disco1') {
 			var discoElement = stanza.getChild('query', NS_XMPP_DISCO);
 			var features = discoElement.getChildren('feature');
 			handleDiscoFeatures(features, client.jid);
-			finished += 1;
-			if (finished == accounts.length) {
-				writeJsonToFile(results,'./results.json', function(error){
-					//disconnectAllClients();
-				});
-			}
 		}
 		if(stanza.attrs['id'] == 'version1') {
 			var querySanza = stanza.getChild('query', NS_XMPP_VERSION);
@@ -63,10 +63,20 @@ function getCapabilities(jid, password) {
 				version = versionStanza.getText();
 			}
 
-			handleSoftwareVersion(name,version);
-			
-			
+			handleSoftwareVersion(name, version, client.jid.domain);
 		}
+
+		//If we don't revieve a timeout for 5 seconds we're finished
+		if (timeoutObject) {
+			clearTimeout(timeoutObject);
+		}
+		
+		timeoutObject = setTimeout(function() {
+			writeJsonToFile(results,'./results.json', function(error){
+					disconnectAllClients();
+				});
+		}, 10000);
+
 	});
 
 }
@@ -84,30 +94,28 @@ function disconnectAllClients()
 	}
 }
 
-function foundFeatureCode(featureCode, domain) {
-	if (featureCode && domain) {
-		if (results[domain]) {
-			if (results[domain].indexOf(featureCode) < 0) {
-				results[domain].push(featureCode);
-			}
-		}
-		else {
-			results[domain] = [featureCode];
-		}
-	}
-}
-
-
 function handleStreamFeatures(streamFeatures, jid) {
 	for(var index in streamFeatures.children) {
 		var feature = streamFeatures.children[index];
 		var featureName = feature.attrs.xmlns;
-		var code = lookupFeature(featureName);
-		if (!code){
-			console.log("Cannot find: ",featureName);
+
+		foundStreamFeature(featureName,jid.domain);
+	}
+}
+
+function foundStreamFeature(feature, domain) {
+	if (!results[domain]) {
+			results[domain] = {};
+		}
+
+	if (feature && domain) {
+		if (results[domain][streamFeaturesKey]) {
+			if (results[domain][streamFeaturesKey].indexOf(feature) < 0) {
+				results[domain][streamFeaturesKey].push(feature);
+			}
 		}
 		else {
-			foundFeatureCode(code,jid.domain);
+			results[domain][streamFeaturesKey] = [feature];
 		}
 	}
 }
@@ -117,19 +125,41 @@ function handleDiscoFeatures (features, jid) {
 	for(var index in features) {
 		var feature = features[index];
 		var featureName = feature.attrs.var;
-		var code = lookupFeature(featureName);
+		
+		foundDicoFeature(featureName,jid.domain);
+	}
+}
 
-		if (!code) {
-			console.log("Cannot find: "+featureName);
+function foundDicoFeature(feature, domain) {
+	if (feature && domain) {
+		if (!results[domain]) {
+			results[domain] = {};
+		}
+
+		if (results[domain][discoFeaturesKey]) {
+			if (results[domain][discoFeaturesKey].indexOf(feature) < 0) {
+				results[domain][discoFeaturesKey].push(feature);
+			}
 		}
 		else {
-			foundFeatureCode(code,jid.domain);
+			results[domain][discoFeaturesKey] = [feature];
 		}
 	}
 }
 
-function handleSoftwareVersion (name, version) {
+function handleSoftwareVersion (name, version, domain) {
+	if (!results[domain]) {
+			results[domain] = {};
+		}
 
+
+	if (name) {
+		results[domain][softwareNameKey] = name;
+	}
+
+	if (version) {
+		results[domain][softwareVersionKey] = version;
+	}
 }
 
 function lookupFeature (feature) {
