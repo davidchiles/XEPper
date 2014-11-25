@@ -8,6 +8,7 @@ var Create = require('./create.js');
 var fs = require('fs');
 
 var NS_XMPP_DISCO = 'http://jabber.org/protocol/disco#info';
+var NS_XMPP_VERSION = 'jabber:iq:version';
 
 var results = {};
 var clients = [];
@@ -34,6 +35,7 @@ function getCapabilities(jid, password) {
 
 		//Send discovery request
 		client.send( new Client.Stanza.Element('iq',{type: 'get',to : dict.jid.domain, from : dict.jid, id : 'disco1'}).c('query', { xmlns: NS_XMPP_DISCO }));
+		client.send( new Client.Stanza.Element('iq',{type: 'get',to : dict.jid.domain, from : dict.jid, id : 'version1'}).c('query', { xmlns: NS_XMPP_VERSION }));
 	});
 
 	client.on('stanza', function(stanza){
@@ -44,9 +46,26 @@ function getCapabilities(jid, password) {
 			finished += 1;
 			if (finished == accounts.length) {
 				writeJsonToFile(results,'./results.json', function(error){
-					disconnectAllClients();
+					//disconnectAllClients();
 				});
 			}
+		}
+		if(stanza.attrs['id'] == 'version1') {
+			var querySanza = stanza.getChild('query', NS_XMPP_VERSION);
+			var nameStanza = querySanza.getChild('name');
+			var versionStanza = querySanza.getChild('version');
+			var name;
+			var version;
+			if (nameStanza) {
+				name = nameStanza.getText();
+			}
+			if (versionStanza) {
+				version = versionStanza.getText();
+			}
+
+			handleSoftwareVersion(name,version);
+			
+			
 		}
 	});
 
@@ -71,7 +90,6 @@ function foundFeatureCode(featureCode, domain) {
 			if (results[domain].indexOf(featureCode) < 0) {
 				results[domain].push(featureCode);
 			}
-			
 		}
 		else {
 			results[domain] = [featureCode];
@@ -108,6 +126,10 @@ function handleDiscoFeatures (features, jid) {
 			foundFeatureCode(code,jid.domain);
 		}
 	}
+}
+
+function handleSoftwareVersion (name, version) {
+
 }
 
 function lookupFeature (feature) {
