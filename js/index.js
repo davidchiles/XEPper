@@ -9,6 +9,11 @@ var googleURL = {
 	"Google Shared Status" : "https://developers.google.com/talk/jep_extensions/shared_status"
 };
 
+var streamFeaturesKey = 'streamFeatures';
+var discoFeaturesKey = 'capabilityFeatures';
+var softwareNameKey = 'softwareName';
+var softwareVersionKey = 'softwareVersion';
+
 function urlForCode(code) {
 		var url = 'https://www.google.com/search?q='+encodeURIComponent("\""+code+"\"");
 		if (code.substring(0,3) == 'XEP') {
@@ -23,84 +28,208 @@ function urlForCode(code) {
 		return url;
 	}
 
-$(document).ready(function(){
-	
-
-	$.getJSON("results.json", function(results) {
-		var domains = Object.keys(results).sort();
-
-		var table = document.createElement('table');
-		table.setAttribute("id", "table");
-		table.setAttribute("class", "tablesorter");
-		table.setAttribute("cellspacing", "1");
-		table.setAttribute("cellpadding", "0");
-		table.setAttribute("border", "0");
-		var codes = [];
-
-		for (var key in results) {
-			codes = _.union(codes,results[key]);
+function lookupFeature (feature, lookupDict) {
+	if (feature) {
+		var featureCode = lookupDict[feature];
+		if (featureCode) {
+			return featureCode;
+		} else {
+			//Remove # if exists
+			varHashIndex = feature.indexOf('#');
+			if (varHashIndex > -1) {
+				return lookupFeature(feature.substring(0,varHashIndex),lookupDict);
+			}
+			//remvoe version numbers ex urn:xmpp:sm:2 → urn:xmpp:sm
+			else {
+				return lookupFeature(feature.split(':',feature.split(':').length - 1).join(':'),lookupDict);
+			}
 		}
-		codes.sort();
+	}
+}
 
-		var tableHead =  document.createElement('tHead');
+function allCodes (features ,lookupDict) {
+	var codes = [];
+	for(var index in features) {
+		codes.push(lookupFeature(features[index],lookupDict));
+	}
+	codes = _.uniq(codes);
+	return codes;
+}
 
-		var tr = document.createElement('tr');
-		var td = document.createElement('th');
+function createTable(domains, headers, resultsKey, results, tableId) {
+	var table = document.createElement('table');
+	table.setAttribute("id", tableId);
+	table.setAttribute("class", "tablesorter");
+	table.setAttribute("cellspacing", "1");
+	table.setAttribute("cellpadding", "0");
+	table.setAttribute("border", "0");
+
+	//Headers
+	var tableHead =  document.createElement('tHead');
+
+	//Domain Header
+	var tr = document.createElement('tr');
+	var td = document.createElement('th');
+	td.setAttribute("class", "header");
+	td.appendChild(document.createTextNode('Domain'));
+	tr.appendChild(td);
+
+	//other Headers
+	for (var i in headers) {
+		td = document.createElement('th');
 		td.setAttribute("class", "header");
-		td.appendChild(document.createTextNode('Domain'));
+		a = document.createElement('a');
+		a.setAttribute('id', 'headerLink');
+		a.href = urlForCode(headers[i]);
+		a.innerHTML = headers[i];
+		td.appendChild(a);
+		tr.appendChild(td);
+	}
+	tableHead.appendChild(tr);
+	table.appendChild(tableHead);
+
+	var tableBody = document.createElement('tbody');
+
+	for(var index in domains) {
+		var domain = domains[index];
+		tr = document.createElement('tr');
+
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(domain));
+		td.setAttribute('class', 'domainCell');
 		tr.appendChild(td);
 
-		for (var i in codes) {
-			td = document.createElement('th');
-			td.setAttribute("class", "header");
-			a = document.createElement('a');
-			a.setAttribute('id', 'headerLink');
-			a.href = urlForCode(codes[i]);
-			a.innerHTML = codes[i];
-			td.appendChild(a);
-			tr.appendChild(td);
-		}
-		tableHead.appendChild(tr);
-		table.appendChild(tableHead);
-
-		var tableBody = document.createElement('tbody');
-
-		for(var index in domains) {
-			var domain = domains[index];
-			tr = document.createElement('tr');
-
-			td = document.createElement('td');
-			td.appendChild(document.createTextNode(domain));
-			td.setAttribute('class', 'domainCell');
-			tr.appendChild(td);
-
-			for (var idx in codes) {
-				code = codes[idx];
-				if (results[domain].indexOf(code) > -1) {
-						td = document.createElement('td');
-						td.setAttribute('class', 'yesCell');
-						td.appendChild(document.createTextNode('Yes'));
-						tr.appendChild(td);
-				} else {
-					td = document.createElement('td');
-					td.setAttribute('class', 'noCell');
-					td.appendChild(document.createTextNode('No'));
-					tr.appendChild(td);
-				}
+		for (var idx in headers) {
+			code = headers[idx];
+			if (results[domain][resultsKey].indexOf(code) > -1) {
+				td = document.createElement('td');
+				td.setAttribute('class', 'yesCell');
+				td.appendChild(document.createTextNode('Yes'));
+				tr.appendChild(td);
+			} else {
+				td = document.createElement('td');
+				td.setAttribute('class', 'noCell');
+				td.appendChild(document.createTextNode('No'));
+				tr.appendChild(td);
 			}
-			tableBody.appendChild(tr);
 		}
+		tableBody.appendChild(tr);
+	}
 
-		table.appendChild(tableBody);
+	table.appendChild(tableBody);
 
-		
+	return table;
+}
 
-		var tablearea = document.getElementById('resultsTableArea');
-		tablearea.appendChild(table);
+function createVersionTable(domains, results, tableId) {
+	var table = document.createElement('table');
+	table.setAttribute("id", tableId);
+	table.setAttribute("class", "tablesorter");
+	table.setAttribute("cellspacing", "1");
+	table.setAttribute("cellpadding", "0");
+	table.setAttribute("border", "0");
 
-		$("#table").tablesorter({widgets: ["zebra"]});
-		$('a#headerLink').click(function(event){
-			event.stopPropagation();
+	//Headers
+	var tableHead =  document.createElement('tHead');
+
+	//Domain Header
+	var tr = document.createElement('tr');
+	var td = document.createElement('th');
+	td.setAttribute("class", "header");
+	td.appendChild(document.createTextNode('Domain'));
+	tr.appendChild(td);
+
+	td = document.createElement('th');
+	td.setAttribute("class", "header");
+	td.appendChild(document.createTextNode('Software'));
+	tr.appendChild(td);
+
+	td = document.createElement('th');
+	td.setAttribute("class", "header");
+	td.appendChild(document.createTextNode('Version'));
+	tr.appendChild(td);
+
+	tableHead.appendChild(tr);
+	table.appendChild(tableHead);
+
+	var tableBody = document.createElement('tbody');
+	for (var domain in results) {
+		var name = results[domain][softwareNameKey];
+		var version = results[domain][softwareVersionKey];
+		tr = document.createElement('tr');
+
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(domain));
+		td.setAttribute('class', 'domainCell');
+		tr.appendChild(td);
+
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(name));
+		td.setAttribute('class', 'nameCell');
+		tr.appendChild(td);
+
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(version));
+		td.setAttribute('class', 'versionCell');
+		tr.appendChild(td);
+
+		tableBody.appendChild(tr);
+	}
+
+	table.appendChild(tableBody);
+	return table;
+
+}
+
+$(document).ready(function() {
+	
+	$.getJSON("results.json", function(results) {
+		$.getJSON("xepLookup.json", function(lookupDict) {
+
+			var domains = Object.keys(results).sort();
+
+			var streamCodes = [];
+			var featureCodes = [];
+
+			for (var key in results) {
+				var allStreamFeatures = results[key][streamFeaturesKey];
+				var allCapabilityFeatures = results[key][discoFeaturesKey];
+				var domainStreamFeatureCodes = allCodes(allStreamFeatures, lookupDict);
+				var domainCapabilitiyCodes = allCodes(allCapabilityFeatures, lookupDict);
+
+				//Insert proper formatted and unique codes
+				results[key][streamFeaturesKey] = domainStreamFeatureCodes;
+				results[key][discoFeaturesKey] = domainCapabilitiyCodes;
+
+				streamCodes = _.union(streamCodes, domainStreamFeatureCodes);
+				featureCodes = _.union(featureCodes, domainCapabilitiyCodes);
+			}
+			streamCodes.sort();
+			featureCodes.sort();
+
+			featureCodes = featureCodes.filter(function(element){
+				return element.indexOf("Google") < 0;
+			});
+
+			var streamTable = createTable(domains, streamCodes, streamFeaturesKey, results, "table1");
+			var discoTable = createTable(domains, featureCodes, discoFeaturesKey, results, "table2");
+
+			var versionTable = createVersionTable(domains, results, "versionTable");
+			
+
+			var tablearea1 = document.getElementById('streamResultsTableArea');
+			var tablearea2 = document.getElementById('discoResultsTableArea');
+			var tablearea3 = document.getElementById('versionResultsTableArea');
+			tablearea1.appendChild(streamTable);
+			tablearea2.appendChild(discoTable);
+			tablearea3.appendChild(versionTable);
+
+			$("#table1").tablesorter({widgets: ["zebra"]});
+			$('#table2').tablesorter({widgets: ["zebra"]});
+			$('#versionTable').tablesorter({widgets: ["zebra"]});
+			$('a#headerLink').click(function(event){
+				event.stopPropagation();
+			});
 		});
 	});
 });
