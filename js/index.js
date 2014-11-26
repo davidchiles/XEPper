@@ -47,6 +47,14 @@ function lookupFeature (feature, lookupDict) {
 	}
 }
 
+function LookupXEPName (xep, lookupDict) {
+	var name = lookupDict[xep];
+	if (!name) {
+		name = xep;
+	}
+	return name;
+}
+
 function allCodes (features ,lookupDict) {
 	var codes = [];
 	for(var index in features) {
@@ -56,7 +64,7 @@ function allCodes (features ,lookupDict) {
 	return codes;
 }
 
-function createTable(domains, headers, resultsKey, results, tableId) {
+function createTable(domains, headers, resultsKey, results, tableId, lookupDict) {
 	var table = document.createElement('table');
 	table.setAttribute("id", tableId);
 	table.setAttribute("class", "tablesorter");
@@ -81,7 +89,7 @@ function createTable(domains, headers, resultsKey, results, tableId) {
 		a = document.createElement('a');
 		a.setAttribute('id', 'headerLink');
 		a.href = urlForCode(headers[i]);
-		a.innerHTML = headers[i];
+		a.innerHTML = LookupXEPName(headers[i],lookupDict);
 		td.appendChild(a);
 		tr.appendChild(td);
 	}
@@ -185,50 +193,53 @@ $(document).ready(function() {
 	
 	$.getJSON("results.json", function(results) {
 		$.getJSON("xepLookup.json", function(lookupDict) {
+			$.getJSON('xepName.json', function(xepName){
 
-			var domains = Object.keys(results).sort();
 
-			var streamCodes = [];
-			var featureCodes = [];
+				var domains = Object.keys(results).sort();
 
-			for (var key in results) {
-				var allStreamFeatures = results[key][streamFeaturesKey];
-				var allCapabilityFeatures = results[key][discoFeaturesKey];
-				var domainStreamFeatureCodes = allCodes(allStreamFeatures, lookupDict);
-				var domainCapabilitiyCodes = allCodes(allCapabilityFeatures, lookupDict);
+				var streamCodes = [];
+				var featureCodes = [];
 
-				//Insert proper formatted and unique codes
-				results[key][streamFeaturesKey] = domainStreamFeatureCodes;
-				results[key][discoFeaturesKey] = domainCapabilitiyCodes;
+				for (var key in results) {
+					var allStreamFeatures = results[key][streamFeaturesKey];
+					var allCapabilityFeatures = results[key][discoFeaturesKey];
+					var domainStreamFeatureCodes = allCodes(allStreamFeatures, lookupDict);
+					var domainCapabilitiyCodes = allCodes(allCapabilityFeatures, lookupDict);
 
-				streamCodes = _.union(streamCodes, domainStreamFeatureCodes);
-				featureCodes = _.union(featureCodes, domainCapabilitiyCodes);
-			}
-			streamCodes.sort();
-			featureCodes.sort();
+					//Insert proper formatted and unique codes
+					results[key][streamFeaturesKey] = domainStreamFeatureCodes;
+					results[key][discoFeaturesKey] = domainCapabilitiyCodes;
 
-			featureCodes = featureCodes.filter(function(element){
-				return element.indexOf("Google") < 0;
-			});
+					streamCodes = _.union(streamCodes, domainStreamFeatureCodes);
+					featureCodes = _.union(featureCodes, domainCapabilitiyCodes);
+				}
+				streamCodes.sort();
+				featureCodes.sort();
 
-			var streamTable = createTable(domains, streamCodes, streamFeaturesKey, results, "table1");
-			var discoTable = createTable(domains, featureCodes, discoFeaturesKey, results, "table2");
+				featureCodes = featureCodes.filter(function(element){
+					return element.indexOf("Google") < 0;
+				});
 
-			var versionTable = createVersionTable(domains, results, "versionTable");
-			
+				var streamTable = createTable(domains, streamCodes, streamFeaturesKey, results, "table1",xepName);
+				var discoTable = createTable(domains, featureCodes, discoFeaturesKey, results, "table2", xepName);
 
-			var tablearea1 = document.getElementById('streamResultsTableArea');
-			var tablearea2 = document.getElementById('discoResultsTableArea');
-			var tablearea3 = document.getElementById('versionResultsTableArea');
-			tablearea1.appendChild(streamTable);
-			tablearea2.appendChild(discoTable);
-			tablearea3.appendChild(versionTable);
+				var versionTable = createVersionTable(domains, results, "versionTable");
+				
 
-			$("#table1").tablesorter({widgets: ["zebra"]});
-			$('#table2').tablesorter({widgets: ["zebra"]});
-			$('#versionTable').tablesorter({widgets: ["zebra"]});
-			$('a#headerLink').click(function(event){
-				event.stopPropagation();
+				var tablearea1 = document.getElementById('streamResultsTableArea');
+				var tablearea2 = document.getElementById('discoResultsTableArea');
+				var tablearea3 = document.getElementById('versionResultsTableArea');
+				tablearea1.appendChild(streamTable);
+				tablearea2.appendChild(discoTable);
+				tablearea3.appendChild(versionTable);
+
+				$("#table1").tablesorter({widgets: ["zebra"]});
+				$('#table2').tablesorter({widgets: ["zebra"]});
+				$('#versionTable').tablesorter({widgets: ["zebra"]});
+				$('a#headerLink').click(function(event){
+					event.stopPropagation();
+				});
 			});
 		});
 	});
