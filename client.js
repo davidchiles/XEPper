@@ -51,20 +51,23 @@ function getCapabilities(jid, password) {
 			handleDiscoFeatures(features, client.jid);
 		}
 		if(stanza.attrs['id'] == 'version1') {
-			var querySanza = stanza.getChild('query', NS_XMPP_VERSION);
-			var nameStanza = querySanza.getChild('name');
-			var versionStanza = querySanza.getChild('version');
-			var name;
-			var version;
-			if (nameStanza) {
-				name = nameStanza.getText();
-			}
-			if (versionStanza) {
-				version = versionStanza.getText();
-			}
+			var queryStanza = stanza.getChild('query', NS_XMPP_VERSION);
+			if (queryStanza) {
+				var nameStanza = queryStanza.getChild('name');
+				var versionStanza = queryStanza.getChild('version');
+				var name;
+				var version;
+				if (nameStanza) {
+					name = nameStanza.getText();
+				}
+				if (versionStanza) {
+					version = versionStanza.getText();
+				}
 
-			handleSoftwareVersion(name, version, client.jid.domain);
+				handleSoftwareVersion(name, version, client.jid.domain);
+			}
 		}
+
 
 		//If we don't revieve a timeout for 5 seconds we're finished
 		if (timeoutObject) {
