@@ -1,6 +1,7 @@
 {
   "name": "XEPper",
   "version": "1.0.0",
+  "repository": "https://github.com/davidchiles/XEPper",
   "description": "A quick and dirty way to query XMPP servers for their capabiliites and features",
   "main": "client.js",
   "dependencies": {

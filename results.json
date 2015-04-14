@@ -38,118 +38,20 @@
             "jabber:iq:search"
         ],
         "softwareName": "Isode M-Link",
-        "softwareVersion": "16.2v12"
-    },
-    "dukgo.com": {
-        "streamFeatures": [
-            "http://jabber.org/protocol/caps",
-            "urn:xmpp:features:rosterver",
-            "http://jabber.org/features/compress",
-            "urn:ietf:params:xml:ns:xmpp-bind",
-            "urn:ietf:params:xml:ns:xmpp-session"
-        ],
-        "capabilityFeatures": [
-            "http://jabber.org/protocol/commands",
-            "urn:xmpp:ping",
-            "msgoffline",
-            "jabber:iq:auth",
-            "jabber:iq:register",
-            "vcard-temp",
-            "jabber:iq:roster",
-            "urn:xmpp:time",
-            "jabber:iq:time",
-            "jabber:iq:private",
-            "http://jabber.org/protocol/disco#info",
-            "http://jabber.org/protocol/disco#items",
-            "jabber:iq:last",
-            "jabber:iq:privacy",
-            "http://jabber.org/protocol/pubsub#publish",
-            "jabber:iq:version"
-        ],
-        "softwareName": "Prosody",
-        "softwareVersion": "0.9 nightly build 231 (2014-11-18, 63d3126b75f1)"
+        "softwareVersion": "16.2v14"
     },
     "rows.io": {
         "streamFeatures": [
-            "urn:ietf:params:xml:ns:xmpp-bind",
-            "urn:ietf:params:xml:ns:xmpp-session",
-            "http://jabber.org/features/compress",
             "urn:xmpp:sm:2",
             "urn:xmpp:sm:3",
+            "http://jabber.org/features/compress",
+            "urn:ietf:params:xml:ns:xmpp-bind",
+            "urn:ietf:params:xml:ns:xmpp-session",
             "urn:xmpp:features:rosterver"
         ],
         "capabilityFeatures": [
             "http://jabber.org/protocol/bytestreams"
         ]
-    },
-    "xmpp.jp": {
-        "streamFeatures": [
-            "urn:ietf:params:xml:ns:xmpp-bind",
-            "urn:ietf:params:xml:ns:xmpp-session",
-            "urn:xmpp:sm:2",
-            "urn:xmpp:sm:3",
-            "urn:xmpp:csi:0",
-            "http://jabber.org/protocol/caps",
-            "http://jabber.org/features/iq-register"
-        ],
-        "capabilityFeatures": [
-            "http://jabber.org/protocol/commands",
-            "http://jabber.org/protocol/disco#info",
-            "http://jabber.org/protocol/disco#items",
-            "http://jabber.org/protocol/pubsub",
-            "http://jabber.org/protocol/pubsub#access-authorize",
-            "http://jabber.org/protocol/pubsub#access-open",
-            "http://jabber.org/protocol/pubsub#access-presence",
-            "http://jabber.org/protocol/pubsub#access-whitelist",
-            "http://jabber.org/protocol/pubsub#auto-create",
-            "http://jabber.org/protocol/pubsub#auto-subscribe",
-            "http://jabber.org/protocol/pubsub#collections",
-            "http://jabber.org/protocol/pubsub#config-node",
-            "http://jabber.org/protocol/pubsub#create-and-configure",
-            "http://jabber.org/protocol/pubsub#create-nodes",
-            "http://jabber.org/protocol/pubsub#delete-items",
-            "http://jabber.org/protocol/pubsub#delete-nodes",
-            "http://jabber.org/protocol/pubsub#filtered-notifications",
-            "http://jabber.org/protocol/pubsub#get-pending",
-            "http://jabber.org/protocol/pubsub#instant-nodes",
-            "http://jabber.org/protocol/pubsub#item-ids",
-            "http://jabber.org/protocol/pubsub#last-published",
-            "http://jabber.org/protocol/pubsub#manage-subscriptions",
-            "http://jabber.org/protocol/pubsub#member-affiliation",
-            "http://jabber.org/protocol/pubsub#modify-affiliations",
-            "http://jabber.org/protocol/pubsub#multi-subscribe",
-            "http://jabber.org/protocol/pubsub#outcast-affiliation",
-            "http://jabber.org/protocol/pubsub#persistent-items",
-            "http://jabber.org/protocol/pubsub#presence-notifications",
-            "http://jabber.org/protocol/pubsub#presence-subscribe",
-            "http://jabber.org/protocol/pubsub#publish",
-            "http://jabber.org/protocol/pubsub#publisher-affiliation",
-            "http://jabber.org/protocol/pubsub#purge-nodes",
-            "http://jabber.org/protocol/pubsub#retract-items",
-            "http://jabber.org/protocol/pubsub#retrieve-affiliations",
-            "http://jabber.org/protocol/pubsub#retrieve-default",
-            "http://jabber.org/protocol/pubsub#retrieve-items",
-            "http://jabber.org/protocol/pubsub#retrieve-subscriptions",
-            "http://jabber.org/protocol/pubsub#rsm",
-            "http://jabber.org/protocol/pubsub#subscribe",
-            "http://jabber.org/protocol/pubsub#subscription-notifications",
-            "http://jabber.org/protocol/pubsub#subscription-options",
-            "http://jabber.org/protocol/stats",
-            "iq",
-            "jabber:iq:last",
-            "jabber:iq:privacy",
-            "jabber:iq:register",
-            "jabber:iq:time",
-            "jabber:iq:version",
-            "msgoffline",
-            "presence",
-            "urn:xmpp:blocking",
-            "urn:xmpp:ping",
-            "urn:xmpp:time",
-            "vcard-temp"
-        ],
-        "softwareName": "ejabberd",
-        "softwareVersion": "14.12"
     },
     "jabber.ccc.de": {
         "streamFeatures": [
@@ -219,67 +121,81 @@
             "vcard-temp"
         ]
     },
-    "boese-ban.de": {
+    "xmpp.jp": {
         "streamFeatures": [
             "urn:ietf:params:xml:ns:xmpp-bind",
             "urn:ietf:params:xml:ns:xmpp-session",
-            "urn:xmpp:features:rosterver",
-            "http://jabber.org/protocol/caps"
+            "urn:xmpp:sm:2",
+            "urn:xmpp:sm:3",
+            "http://jabber.org/protocol/caps",
+            "http://jabber.org/features/iq-register"
         ],
         "capabilityFeatures": [
+            "http://jabber.org/protocol/commands",
+            "http://jabber.org/protocol/disco#info",
+            "http://jabber.org/protocol/disco#items",
+            "http://jabber.org/protocol/pubsub",
+            "http://jabber.org/protocol/pubsub#access-authorize",
+            "http://jabber.org/protocol/pubsub#access-open",
+            "http://jabber.org/protocol/pubsub#access-presence",
+            "http://jabber.org/protocol/pubsub#access-whitelist",
+            "http://jabber.org/protocol/pubsub#auto-create",
+            "http://jabber.org/protocol/pubsub#auto-subscribe",
+            "http://jabber.org/protocol/pubsub#collections",
+            "http://jabber.org/protocol/pubsub#config-node",
+            "http://jabber.org/protocol/pubsub#create-and-configure",
+            "http://jabber.org/protocol/pubsub#create-nodes",
+            "http://jabber.org/protocol/pubsub#delete-items",
+            "http://jabber.org/protocol/pubsub#delete-nodes",
+            "http://jabber.org/protocol/pubsub#filtered-notifications",
+            "http://jabber.org/protocol/pubsub#get-pending",
+            "http://jabber.org/protocol/pubsub#instant-nodes",
+            "http://jabber.org/protocol/pubsub#item-ids",
+            "http://jabber.org/protocol/pubsub#last-published",
+            "http://jabber.org/protocol/pubsub#manage-subscriptions",
+            "http://jabber.org/protocol/pubsub#member-affiliation",
+            "http://jabber.org/protocol/pubsub#modify-affiliations",
+            "http://jabber.org/protocol/pubsub#multi-subscribe",
+            "http://jabber.org/protocol/pubsub#outcast-affiliation",
+            "http://jabber.org/protocol/pubsub#persistent-items",
+            "http://jabber.org/protocol/pubsub#presence-notifications",
+            "http://jabber.org/protocol/pubsub#presence-subscribe",
+            "http://jabber.org/protocol/pubsub#publish",
+            "http://jabber.org/protocol/pubsub#publisher-affiliation",
+            "http://jabber.org/protocol/pubsub#purge-nodes",
+            "http://jabber.org/protocol/pubsub#retract-items",
+            "http://jabber.org/protocol/pubsub#retrieve-affiliations",
+            "http://jabber.org/protocol/pubsub#retrieve-default",
+            "http://jabber.org/protocol/pubsub#retrieve-items",
+            "http://jabber.org/protocol/pubsub#retrieve-subscriptions",
+            "http://jabber.org/protocol/pubsub#rsm",
+            "http://jabber.org/protocol/pubsub#subscribe",
+            "http://jabber.org/protocol/pubsub#subscription-notifications",
+            "http://jabber.org/protocol/pubsub#subscription-options",
+            "http://jabber.org/protocol/stats",
+            "iq",
+            "jabber:iq:last",
             "jabber:iq:privacy",
             "jabber:iq:register",
-            "vcard-temp",
-            "http://jabber.org/protocol/commands",
-            "jabber:iq:roster",
-            "urn:xmpp:time",
             "jabber:iq:time",
-            "urn:xmpp:ping",
-            "jabber:iq:private",
-            "jabber:iq:auth",
-            "jabber:iq:last",
             "jabber:iq:version",
-            "http://jabber.org/protocol/pubsub#publish",
-            "http://jabber.org/protocol/disco#info",
-            "http://jabber.org/protocol/disco#items",
-            "msgoffline"
-        ],
-        "softwareName": "Prosody",
-        "softwareVersion": "0.9 nightly build 232 (2015-01-06, 461217c45a18)"
-    },
-    "blah.im": {
-        "streamFeatures": [
-            "urn:xmpp:features:rosterver",
-            "urn:ietf:params:xml:ns:xmpp-bind",
-            "urn:ietf:params:xml:ns:xmpp-session",
-            "http://jabber.org/protocol/caps"
-        ],
-        "capabilityFeatures": [
-            "vcard-temp",
-            "jabber:iq:last",
-            "http://jabber.org/protocol/commands",
-            "jabber:iq:roster",
-            "jabber:iq:register",
-            "jabber:iq:private",
             "msgoffline",
+            "presence",
+            "urn:xmpp:blocking",
             "urn:xmpp:ping",
-            "http://jabber.org/protocol/pubsub#publish",
-            "http://jabber.org/protocol/disco#info",
-            "http://jabber.org/protocol/disco#items",
-            "jabber:iq:version",
             "urn:xmpp:time",
-            "jabber:iq:time"
+            "vcard-temp"
         ],
-        "softwareName": "Prosody",
-        "softwareVersion": "0.9.7"
+        "softwareName": "ejabberd",
+        "softwareVersion": "15.02"
     },
     "jabber.calyxinstitute.org": {
         "streamFeatures": [
-            "http://jabber.org/protocol/caps",
-            "urn:xmpp:sm:2",
-            "urn:xmpp:features:rosterver",
             "urn:ietf:params:xml:ns:xmpp-bind",
-            "urn:ietf:params:xml:ns:xmpp-session"
+            "urn:ietf:params:xml:ns:xmpp-session",
+            "http://jabber.org/protocol/caps",
+            "urn:xmpp:features:rosterver",
+            "urn:xmpp:sm:2"
         ],
         "capabilityFeatures": [
             "jabber:iq:register",
@@ -301,29 +217,31 @@
         "softwareName": "Prosody",
         "softwareVersion": "0.9.7"
     },
-    "jabberpl.org": {
+    "blah.im": {
         "streamFeatures": [
             "urn:ietf:params:xml:ns:xmpp-bind",
             "urn:ietf:params:xml:ns:xmpp-session",
-            "urn:xmpp:sm:2",
-            "urn:xmpp:sm:3",
-            "http://jabber.org/protocol/caps",
-            "http://jabber.org/features/iq-register"
+            "urn:xmpp:features:rosterver",
+            "http://jabber.org/protocol/caps"
         ],
         "capabilityFeatures": [
+            "vcard-temp",
+            "jabber:iq:last",
             "http://jabber.org/protocol/commands",
+            "jabber:iq:roster",
+            "jabber:iq:register",
+            "jabber:iq:private",
+            "msgoffline",
+            "urn:xmpp:ping",
+            "http://jabber.org/protocol/pubsub#publish",
             "http://jabber.org/protocol/disco#info",
             "http://jabber.org/protocol/disco#items",
-            "iq",
-            "jabber:iq:last",
-            "jabber:iq:register",
-            "msgoffline",
-            "presence",
-            "urn:xmpp:blocking",
-            "urn:xmpp:carbons:1",
-            "urn:xmpp:carbons:2",
-            "vcard-temp"
-        ]
+            "jabber:iq:version",
+            "urn:xmpp:time",
+            "jabber:iq:time"
+        ],
+        "softwareName": "Prosody",
+        "softwareVersion": "0.9.8"
     },
     "alpha-labs.net": {
         "streamFeatures": [
@@ -381,6 +299,87 @@
         ],
         "softwareName": "Openfire",
         "softwareVersion": "3.9.3"
+    },
+    "jabberpl.org": {
+        "streamFeatures": [
+            "urn:ietf:params:xml:ns:xmpp-bind",
+            "urn:ietf:params:xml:ns:xmpp-session",
+            "urn:xmpp:sm:2",
+            "urn:xmpp:sm:3",
+            "http://jabber.org/protocol/caps",
+            "http://jabber.org/features/iq-register"
+        ],
+        "capabilityFeatures": [
+            "http://jabber.org/protocol/commands",
+            "http://jabber.org/protocol/disco#info",
+            "http://jabber.org/protocol/disco#items",
+            "iq",
+            "jabber:iq:last",
+            "jabber:iq:register",
+            "msgoffline",
+            "presence",
+            "urn:xmpp:blocking",
+            "urn:xmpp:carbons:1",
+            "urn:xmpp:carbons:2",
+            "vcard-temp"
+        ]
+    },
+    "boese-ban.de": {
+        "streamFeatures": [
+            "urn:xmpp:features:rosterver",
+            "http://jabber.org/protocol/caps",
+            "urn:ietf:params:xml:ns:xmpp-bind",
+            "urn:ietf:params:xml:ns:xmpp-session"
+        ],
+        "capabilityFeatures": [
+            "jabber:iq:privacy",
+            "vcard-temp",
+            "jabber:iq:register",
+            "http://jabber.org/protocol/commands",
+            "jabber:iq:roster",
+            "urn:xmpp:time",
+            "jabber:iq:time",
+            "jabber:iq:auth",
+            "jabber:iq:private",
+            "http://jabber.org/protocol/disco#info",
+            "http://jabber.org/protocol/disco#items",
+            "jabber:iq:version",
+            "http://jabber.org/protocol/pubsub#publish",
+            "msgoffline",
+            "urn:xmpp:ping",
+            "jabber:iq:last"
+        ],
+        "softwareName": "Prosody",
+        "softwareVersion": "0.9 nightly build 236 (2015-03-25, debd9a7be528)"
+    },
+    "dukgo.com": {
+        "streamFeatures": [
+            "http://jabber.org/protocol/caps",
+            "http://jabber.org/features/compress",
+            "urn:xmpp:features:rosterver",
+            "urn:ietf:params:xml:ns:xmpp-bind",
+            "urn:ietf:params:xml:ns:xmpp-session"
+        ],
+        "capabilityFeatures": [
+            "http://jabber.org/protocol/commands",
+            "urn:xmpp:ping",
+            "jabber:iq:privacy",
+            "msgoffline",
+            "jabber:iq:version",
+            "jabber:iq:register",
+            "vcard-temp",
+            "jabber:iq:roster",
+            "urn:xmpp:time",
+            "jabber:iq:time",
+            "jabber:iq:private",
+            "http://jabber.org/protocol/pubsub#publish",
+            "http://jabber.org/protocol/disco#info",
+            "http://jabber.org/protocol/disco#items",
+            "jabber:iq:last",
+            "jabber:iq:auth"
+        ],
+        "softwareName": "Prosody",
+        "softwareVersion": "0.9 nightly build 231 (2014-11-18, 63d3126b75f1)"
     },
     "creep.im": {
         "streamFeatures": [
