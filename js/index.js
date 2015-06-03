@@ -219,7 +219,7 @@ $(document).ready(function() {
 
 				featureCodes = featureCodes.filter(function(element){
 					try {
-						var result element.indexOf("Google") < 0;
+						return element.indexOf("Google") < 0;
 					} catch(e) {
 						console.log(e)
 					}
