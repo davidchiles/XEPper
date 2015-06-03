@@ -26,12 +26,22 @@ for (var index in accounts) {
 }
 
 function getCapabilities(jid, password) {
+	console.log("Starting: "+jid)
 	var client = new Client({
 		jid: jid,
 		password: password
 	});
 
 	clients.push(client);
+
+	client.on('error',function(error) {
+		console.error(error)
+	})
+
+	client.connection.socket.on('error', function(error) {
+		console.log(client.jid.domain)
+    	console.error(error)
+	})
 
 	client.on('online', function(dict) {
 		console.log('online ' + dict.jid);

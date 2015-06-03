@@ -5,8 +5,8 @@
   "description": "A quick and dirty way to query XMPP servers for their capabiliites and features",
   "main": "client.js",
   "dependencies": {
-    "node-xmpp-client": "^1.0.0-alpha18",
-    "underscore": "^1.7.0"
+    "node-xmpp-client": "^1.0.0-alpha20",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "scripts": {
