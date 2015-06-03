@@ -218,7 +218,12 @@ $(document).ready(function() {
 				featureCodes.sort();
 
 				featureCodes = featureCodes.filter(function(element){
-					return element.indexOf("Google") < 0;
+					try {
+						var result element.indexOf("Google") < 0;
+					} catch(e) {
+						console.log(e)
+					}
+					
 				});
 
 				var streamTable = createTable(domains, streamCodes, streamFeaturesKey, results, "table1",xepName);
