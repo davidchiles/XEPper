@@ -35,12 +35,12 @@ function getCapabilities(jid, password) {
 	clients.push(client);
 
 	client.on('error',function(error) {
-		console.error(error)
+		console.error(client.jid.domain + " " + error)
 	})
 
 	client.connection.socket.on('error', function(error) {
-		console.log(client.jid.domain)
-    	console.error(error)
+		console.log(client.jid.domain +" "+ error);
+
 	})
 
 	client.on('online', function(dict) {
@@ -83,7 +83,7 @@ function getCapabilities(jid, password) {
 		if (timeoutObject) {
 			clearTimeout(timeoutObject);
 		}
-		
+
 		timeoutObject = setTimeout(function() {
 			writeJsonToFile(results,'./results.json', function(error){
 					disconnectAllClients();
@@ -134,11 +134,11 @@ function foundStreamFeature(feature, domain) {
 }
 
 function handleDiscoFeatures (features, jid) {
-	
+
 	for(var index in features) {
 		var feature = features[index];
 		var featureName = feature.attrs.var;
-		
+
 		foundDicoFeature(featureName,jid.domain);
 	}
 }
@@ -194,6 +194,3 @@ function lookupFeature (feature) {
 		}
 	}
 }
-
-
-

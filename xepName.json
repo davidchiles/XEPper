@@ -82,5 +82,9 @@
     "XEP-0191": "XEP-0191: Blocking Command",
     "XEP-0039": "XEP-0039: Statistics Gathering",
     "XEP-0018": "XEP-0018: Invisible Presence",
-    "XEP-0059": "XEP-0059: Result Set Management"
+    "XEP-0059": "XEP-0059: Result Set Management",
+    "XEP-0313": "XEP-0313: Message Archive Management",
+    "XEP-0215": "XEP-0215: External Service Discovery",
+    "XEP-0328": "XEP-0328: JID Prep",
+    "XEP-0309": "XEP-0309: Service Directories"
 }

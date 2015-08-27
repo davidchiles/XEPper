@@ -106,6 +106,8 @@
 	"msgoffline" : "XEP-0160",
 	"urn:xmpp:sm" : "XEP-0198",
 	"urn:xmpp:csi" : "XEP-0352",
+	"urn:xmpp:mam" : "XEP-0313",
+	"urn:xmpp:extdisco" : "XEP-0215",
 	"urn:xmpp:features:rosterver" : "XEP-0237",
 	"urn:ietf:params:xml:ns:xmpp-bind" : "RFC-3920",
 	"urn:ietf:params:xml:ns:xmpp-session" : "RFC-3920",
@@ -128,5 +130,8 @@
 	"google:shared-status" : "Google Shared Status",
 	"http://jabber.org/protocol/archive" : "Google Archive",
 	"google:queue" : "XEP-0136",
-	"google:mail:notify" : "Google Gmail Notifications"
+	"google:mail:notify" : "Google Gmail Notifications",
+	"urn:xmpp:sic" : "XEP-xxxx: Server IP Check",
+	"urn:xmpp:jidprep" : "XEP-0328",
+	"urn:xmpp:server-presence" : "XEP-0309"
 }
